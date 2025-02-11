@@ -1,0 +1,27 @@
+chapter_number: 4
+chapter_title: Governance
+authors:
+- Charles Martinet
+affiliations:
+- French Center for AI Safety (CeSIA)
+acknowledgements:
+- Markov Grey
+- Charbel-Raphael Segerie
+- Léo Karoubi
+date: '2024-12-10'
+links:
+- name: AI Safety Atlas
+  url: https://ai-safety-atlas.com/chapters/04/
+  type: ai_safety_atlas
+- name: Google Docs
+  url: https://docs.google.com/document/d/1fFVYWes5JQgSc2l9cAMQKprCevw2qW0-4MKMQPnpbxw/edit?usp=sharing
+  type: google_docs
+- name: Feedback
+  url: https://forms.gle/ZsA4hEWUx1ZrtQLL9
+  type: feedback
+- name: Watch
+  url: https://www.youtube.com/watch?v=FSKuDqze9es
+  type: watch
+- name: Facilitate
+  url: https://docs.google.com/document/d/1tp5rpzw_gekjju-UBp8tkbbnQOuA2QzsPF_um8Z4IOU/edit?tab=t.0#heading=h.fo57hwsn3del
+  type: facilitate
