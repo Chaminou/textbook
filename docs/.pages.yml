@@ -1,7 +1,0 @@
-# File: docs/.pages.yml
-nav:
-- Home: index.md
-- Book: 
-  - 'chapters/index.md'
-  - '...'
-- Feedback: feedback.md
