@@ -1,0 +1,50 @@
+# 9.4 Automatisation et mise à l'échelle de l'interprétabilité
+
+<div class="section-meta">
+    <div class="meta-item">
+        <i class="fas fa-clock"></i>
+        3 min de lecture
+    </div>
+    <div class="meta-item">
+        <i class="fas fa-file-alt"></i> 
+        529 mots
+    </div>
+</div>
+
+Les modèles de pointe contiennent désormais des centaines de milliards de paramètres et des milliers de couches interconnectées, rendant l'inspection manuelle des composants du modèle irréalisable. L'interprétabilité mécaniste vise à analyser comment des éléments individuels — tels que des têtes d'attention, des neurones, des caractéristiques ou des couches entières — interagissent pour produire des comportements spécifiques. Cependant, à mesure que les modèles se développent, des approches manuelles comme le [patching d'activations] pour la découverte de circuits, l'étude de sous-graphes et la génération d'explications subséquentes ([Wang et al., 2023](https://openreview.net/forum?id=NpsVSN6o4ul)) deviennent impossibles à utiliser. C'est pourquoi le développement de méthodes d'interprétabilité mécaniste pouvant être mises à l'échelle est essentiel.
+
+La recherche en interprétabilité évolutive, comme la Découverte Automatique de Circuits (ACDC), vise à développer des algorithmes qui automatisent la recherche de circuits au sein des transformateurs.
+
+## 9.4.1 Découverte Automatique de Circuits (ACDC) {: #01 }
+
+Dans la section sur le [patching d'activations], nous avons présenté comment les chercheurs en interprétabilité découvrent manuellement des circuits. **La Découverte Automatique de Circuits (ACDC) est un algorithme qui automatise le processus de découverte de circuits et réalise toutes les expériences de patching d'activations nécessaires pour identifier un circuit**.
+
+Le flux de travail typique de découverte manuelle de circuits peut être décomposé en trois étapes principales :
+
+1. **Sélectionner un comportement**, un **ensemble de données** qui suscite ce comportement, et une **métrique** pour mesurer la performance du modèle sur ce comportement,
+
+2. **Diviser le modèle en un graphe computationnel** : le modèle est représenté comme un graphe, où les nœuds correspondent à des composants individuels comme des têtes d'attention ou des MLP, ou des unités plus granulaires comme des neurones individuels, selon la granularité de l'analyse,
+
+3. **Isoler le circuit pertinent** : cette étape est ce que l'algorithme ACDC automatise. Elle consiste à identifier quels composants (nœuds et arêtes) du graphe computationnel sont impliqués dans le comportement étudié.
+
+L'algorithme ACDC est un algorithme **récursif** qui isole les circuits en itérant sur le graphe computationnel *des sorties vers les entrées* et en *élaguant* les arêtes inutiles. Les étapes de haut niveau sont :
+
+1. Commencer avec le graphe computationnel complet du modèle,
+
+2. Nous allons traiter le graphe *en partant de la couche de sortie*, en remontant vers l'entrée,
+
+3. Pour chaque nœud, chercher à minimiser le nombre d'arêtes entrantes, tout en préservant la performance du modèle sur la métrique sélectionnée (en limitant l'impact sur les performances de la tâche spécifiée). Si la modification de performance reste en deçà d'un seuil prédéfini, l'arête est définitivement éliminée.
+
+4. Itérer sur tous les nœuds restants (de la couche de sortie à la couche d'entrée)
+
+5. Finalement, renvoyer le sous-graphe simplifié avec uniquement les connexions nécessaires à la tâche.
+
+L'algorithme ACDC permet de redécouvrir efficacement les circuits précédemment identifiés dans la recherche, comme les circuits IOI ou Greater-Than.
+
+Des avancées récentes ont introduit des méthodes pour découvrir automatiquement des **circuits de caractéristiques parcimonieuses** ([Marks et al., 2024](https://arxiv.org/abs/2403.19647)) - des circuits composés de caractéristiques d'auto-encodeurs parcimonieux (SAE) plutôt que de composants de modèle. Contrairement aux circuits traditionnels, qui sont constitués de composants de modèle difficiles à interpréter comme des neurones ou des MLP, les **circuits SAE** sont construits à partir de caractéristiques de SAE, qui sont directement interprétables.
+
+Les auteurs de cette recherche ont développé des techniques non supervisées pour découvrir automatiquement des milliers de circuits de caractéristiques, dont beaucoup correspondent à des comportements de modèle précédemment non anticipés. Cette approche ouvre de nouvelles possibilités pour interpréter les modèles en se concentrant sur les caractéristiques de haut niveau qui pilotent les comportements, plutôt que d'utiliser des composants de modèle plus abstraits et moins interprétables.
+
+<div class="section-end">
+    <span>❧</span>
+</div>
